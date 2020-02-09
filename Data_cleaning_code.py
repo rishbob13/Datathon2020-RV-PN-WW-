@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-
+import matplotlib.pyplot as plt
 
 def dict_creator(file):
     """
@@ -97,12 +97,29 @@ def total_males_per_row():
     return male_totals
 
 
-def max_average_housing():
-    averages = []
+def unique_housing_places():
+    initial, unique = [], []
     for i in housing_lst:
-        averages.append(i[8])
-    return averages
+        initial.append(i[2])
+    for j in initial:
+        if j not in unique:
+            unique.append(j)
+    return unique
 
+
+def population_per_area():
+    dict = {}
+    for i in unique_housing_places():
+        pop_list = []
+        for j in housing_lst[1:]:
+            if i == j[2]:
+                if j[3][0] == '"':
+                    pop_list.append(int(j[3][1:]))
+                else:
+                    pop_list.append(int(j[3]))
+        dict[i] = sum(pop_list)
+    return dict
+    
 
 housing_dict = dict_creator("SD1970_housing.csv")
 population_dict = dict_creator("SD1970_population.csv")
